@@ -263,14 +263,20 @@ textarea {
 
 /* Fix iOS background issue - mobile only*/
 @supports (-webkit-touch-callout: none) {
-  #packages .sectionHead,
-  #venue .sectionHead,
-  #gallery .sectionHead,
-  #contact .sectionHead {
-    padding-bottom: 12px;
-    margin-bottom: 12px;
-    border-bottom: 1px solid rgba(124, 58, 237, .08);
-  }
+
+    /* iOS + fixed background + gradients */
+    body {
+        background-attachment: scroll !important;
+    }
+
+    #packages .sectionHead,
+    #venue .sectionHead,
+    #gallery .sectionHead,
+    #contact .sectionHead {
+        padding-bottom: 12px;
+        margin-bottom: 12px;
+        border-bottom: 1px solid rgba(124, 58, 237, .08);
+    }
 }
 
 
