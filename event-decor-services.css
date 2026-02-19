@@ -249,17 +249,19 @@ a {
 }
 
 /* ----- iOS SAFARI CONSISTENCY FIXES ----- */
-@media (max-width: 820px) {
-        #packages .sectionHead,
-        #venue .sectionHead,
-        #gallery .sectionHead,
-        #contact .sectionHead {
-            transform: translateZ(0);
-            -webkit-transform: translateZ(0);
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
-        }
-    }
+@supports (-webkit-touch-callout: none) {
+  body { background-attachment: scroll; } /* prevent iOS fixed-gradient seams */
+
+  /* keep sections transparent so the real body background shows through */
+  #packages, #venue, #gallery, #contact { background: transparent; }
+
+  /* add a tiny “paint surface” only behind the section headings (where the seam appears) */
+  #packages .sectionHead,
+  #venue .sectionHead,
+  #gallery .sectionHead,
+  #contact .sectionHead {
+    background: rgba(251, 248, 255, .92);
+  }
 }
 
 
