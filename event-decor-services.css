@@ -261,12 +261,14 @@ textarea {
   appearance: none;
 }
 
-/* Fix iOS background issue */
-@supports (-webkit-touch-callout: none) {
-  body {
-    background-attachment: scroll; /* iOS fix */
+/* Fix iOS background issue - mobile only*/
+@media (max-width: 600px) {
+  #venue, .venue, .promo {
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
   }
 }
+
 
 /* ========================
    5) SECTION BASE (SHARED)
