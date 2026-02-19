@@ -261,15 +261,12 @@ textarea {
   appearance: none;
 }
 
-/* Mobile only */
-@media (max-width: 820px) {
+/* Fix iOS background issue */
+@supports (-webkit-touch-callout: none) {
   body {
-    background-attachment: scroll;
-    background-color: var(--bg);
-    background-repeat: no-repeat;
+    background-attachment: scroll; /* iOS fix */
   }
 }
-
 
 /* ========================
    5) SECTION BASE (SHARED)
