@@ -1,0 +1,1198 @@
+/* ========================
+   1) THEME TOKENS (SHARED)
+   ======================== */
+:root {
+    /* Background + Panels */
+    --bg: #fbf8ff;
+    --panel: rgba(255, 255, 255, .72);
+    --panel2: rgba(255, 255, 255, .86);
+    --stroke: rgba(124, 58, 237, .14);
+
+    /* Text */
+    --text: rgba(17, 24, 39, .92);
+    --muted: rgba(17, 24, 39, .70);
+    --muted2: rgba(17, 24, 39, .56);
+
+    /* Party Theme Accent Colors */
+    --brand: #c084fc;
+    /* soft purple */
+    --brand2: #fb7185;
+    /* soft pink */
+
+    /* Shadows + Radius */
+    --shadow: 0 18px 60px rgba(17, 24, 39, .10);
+    --radius: 18px;
+    --radius2: 24px;
+    --max: 1160px;
+}
+
+/* Keep (harmless) — it matches your light tokens anyway */
+@media (prefers-color-scheme: light) {
+    :root {
+        --bg: #fbf8ff;
+        --panel: rgba(255, 255, 255, .72);
+        --panel2: rgba(255, 255, 255, .86);
+        --stroke: rgba(124, 58, 237, .14);
+
+        --text: rgba(17, 24, 39, .92);
+        --muted: rgba(17, 24, 39, .70);
+        --muted2: rgba(17, 24, 39, .56);
+
+        --shadow: 0 18px 60px rgba(17, 24, 39, .10);
+    }
+}
+
+
+/* ===============
+   2) RESET / BASE
+   =============== */
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    color: var(--text);
+    line-height: 1.55;
+
+    /* Page background */
+    background:
+        radial-gradient(1200px 800px at 15% -10%, rgba(192, 132, 252, .16), transparent 60%),
+        radial-gradient(1000px 700px at 90% 10%, rgba(251, 113, 133, .12), transparent 62%),
+        radial-gradient(900px 650px at 40% 110%, rgba(192, 132, 252, .08), transparent 70%),
+        linear-gradient(180deg, #ffffff 0%, #fbf8ff 55%, #fff7fb 100%);
+    background-attachment: fixed;
+}
+
+a {
+    color: inherit;
+}
+
+.wrap {
+    width: min(var(--max), calc(100% - 40px));
+    margin: 0 auto;
+}
+
+
+/* ===================
+   3) TOP NAV (SHARED)
+   =================== */
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: blur(14px);
+    background: rgba(255, 255, 255, .72);
+    border-bottom: 1px solid var(--stroke);
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 0;
+    gap: 14px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    font-weight: 800;
+    /* using the stronger About value */
+    letter-spacing: .2px;
+}
+
+.mark {
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--brand), var(--brand2));
+    box-shadow: 0 10px 30px rgba(192, 132, 252, .22);
+}
+
+.navlinks {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-size: 14px;
+    color: var(--muted);
+}
+
+.navlinks a {
+    position: relative;
+    /* needed for gradient underline */
+    text-decoration: none;
+    padding: 8px 10px;
+    border-radius: 12px;
+}
+
+.navlinks a:hover {
+    background: var(--panel);
+    color: var(--text);
+}
+
+/* Active link: gradient underline + glow (from about.css) */
+.navlinks a.active::before,
+.navlinks a[aria-current="page"]::before {
+    content: "";
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    bottom: -10px;
+    height: 10px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, rgba(192, 132, 252, .35), rgba(251, 113, 133, .25));
+    filter: blur(8px);
+    opacity: .5;
+}
+
+.navlinks a.active::after,
+.navlinks a[aria-current="page"]::after {
+    content: "";
+    position: absolute;
+    left: 9px;
+    right: 9px;
+
+    /* Underline sits INSIDE the link, near bottom */
+    bottom: 7.5px;
+    height: 2.5px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--brand), var(--brand2));
+}
+
+/* Stop the fade overlay from covering the first chip */
+@media (max-width: 820px) {
+
+    /* Remove the nav-level fades (these cause the “faded Packages” look) */
+    .nav::before,
+    .nav::after {
+        display: none;
+    }
+
+    /* Add fades to the scroll container instead */
+    .navChips {
+        position: relative;
+    }
+
+    .navChips::before,
+    .navChips::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 18px;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .navChips::before {
+        left: 0;
+        background: linear-gradient(to right, var(--bg), rgba(251, 248, 255, 0));
+    }
+
+    .navChips::after {
+        right: 0;
+        background: linear-gradient(to left, var(--bg), rgba(251, 248, 255, 0));
+    }
+
+    /* Ensure chips sit above the fades */
+    .chipLink {
+        position: relative;
+        z-index: 2;
+    }
+}
+
+
+/* ===================
+   4) BUTTONS (SHARED)
+   =================== */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--stroke);
+    background: linear-gradient(180deg, var(--panel2), var(--panel));
+    box-shadow: 0 10px 35px rgba(0, 0, 0, .22);
+    text-decoration: none;
+    font-weight: 650;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    border-color: rgba(192, 132, 252, .55);
+    box-shadow: 0 14px 45px rgba(192, 132, 252, .22);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.btn.primary {
+    border-color: rgba(214, 180, 107, .55);
+    background: linear-gradient(135deg, rgba(214, 180, 107, .20), rgba(214, 180, 107, .06));
+}
+
+
+/* ========================
+   5) SECTION BASE (SHARED)
+   ======================== */
+section {
+    padding: 34px 0;
+}
+
+.sectionHead {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 14px;
+}
+
+.sectionHead h2 {
+    margin: 0;
+    font-size: clamp(22px, 2.4vw, 32px);
+    letter-spacing: -.3px;
+}
+
+.sectionHead p {
+    margin: 0;
+    color: var(--muted);
+    max-width: 72ch;
+}
+
+.hint {
+    margin: 6px 0 12px;
+    color: var(--muted);
+}
+
+
+/* ================
+   6) HERO (SHARED)
+   ================ */
+.hero {
+    padding: 54px 0 26px;
+}
+
+.heroGrid {
+    display: grid;
+    grid-template-columns: 1.2fr .8fr;
+    gap: 22px;
+    align-items: stretch;
+}
+
+@media (max-width: 960px) {
+    .heroGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.heroCard {
+    border: 1px solid var(--stroke);
+    border-radius: var(--radius2);
+    background: linear-gradient(180deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, .04));
+    box-shadow: var(--shadow);
+    padding: 26px;
+    overflow: hidden;
+    position: relative;
+}
+
+.pill {
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--stroke);
+    background: rgba(255, 255, 255, .06);
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.hero h1 {
+    margin: 12px 0 10px;
+    font-size: clamp(34px, 4.4vw, 54px);
+    line-height: 1.05;
+    letter-spacing: -.6px;
+}
+
+.hero p {
+    margin: 0 0 18px;
+    color: var(--muted);
+    font-size: 16px;
+    max-width: 62ch;
+}
+
+.heroActions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.jump {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--stroke);
+    background: rgba(255, 255, 255, .05);
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.chip:hover {
+    border-color: rgba(214, 180, 107, .42);
+    color: var(--text);
+}
+
+
+.heroMini {
+    display: grid;
+    gap: 12px;
+}
+
+.miniBox {
+    border: 1px solid var(--stroke);
+    border-radius: var(--radius);
+    background: linear-gradient(180deg, var(--panel2), var(--panel));
+    padding: 16px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, .25);
+}
+
+.miniTitle {
+    font-weight: 700;
+    margin: 0 0 6px;
+}
+
+.miniText {
+    margin: 0;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.miniList {
+    margin: 10px 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 8px;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.miniList li {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+.dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 999px;
+    margin-top: 6px;
+    background: var(--brand2);
+    box-shadow: 0 0 18px rgba(251, 113, 133, .55);
+    flex: 0 0 9px;
+}
+
+
+/* ================
+   7) TABS (SHARED)
+   ================ */
+.tabs {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 14px 0 18px;
+}
+
+.tabBtn {
+    appearance: none;
+    border: 1px solid var(--stroke);
+    background: rgba(255, 255, 255, .05);
+    color: var(--muted);
+    padding: 10px 12px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-weight: 650;
+    font-size: 13px;
+}
+
+.tabBtn[aria-selected="true"] {
+    color: var(--text);
+    border-color: rgba(192, 132, 252, .65);
+    background: linear-gradient(135deg, rgba(192, 132, 252, .22), rgba(251, 113, 133, .14));
+}
+
+
+/* =========================
+   8) CARDS / GRIDS (SHARED)
+   ========================= */
+.grid3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+}
+
+@media (max-width: 980px) {
+    .grid3 {
+        grid-template-columns: 1fr;
+    }
+}
+
+.card {
+    border: 1px solid var(--stroke);
+    border-radius: var(--radius2);
+    background: linear-gradient(180deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, .04));
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+.cardMedia {
+    aspect-ratio: 16/10;
+    background:
+        radial-gradient(900px 400px at 20% 10%, rgba(214, 180, 107, .24), transparent 45%),
+        radial-gradient(700px 380px at 90% 20%, rgba(214, 180, 107, .16), transparent 48%),
+        rgba(255, 255, 255, .05);
+    border-bottom: 1px solid var(--stroke);
+    position: relative;
+}
+
+.cardMedia img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: saturate(1.04) contrast(1.02);
+}
+
+.badge {
+    position: absolute;
+    left: 14px;
+    top: 14px;
+    background: rgba(255, 255, 255, .72);
+    border: 1px solid rgba(124, 58, 237, .14);
+    color: rgba(17, 24, 39, .92);
+    padding: 8px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    backdrop-filter: blur(10px);
+}
+
+.cardBody {
+    padding: 16px 16px 14px;
+    display: grid;
+    gap: 10px;
+}
+
+.cardTop {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.card h3 {
+    margin: 0;
+    font-size: 18px;
+    letter-spacing: -.2px;
+}
+
+.price {
+    font-weight: 800;
+    color: rgba(214, 180, 107, .95);
+    letter-spacing: .2px;
+    white-space: nowrap;
+}
+
+.sub {
+    margin: 0;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 8px;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.list li {
+    display: flex;
+    gap: 10px;
+}
+
+.check {
+    width: 18px;
+    height: 18px;
+    border-radius: 6px;
+    border: 1px solid rgba(192, 132, 252, .60);
+    background: rgba(192, 132, 252, .14);
+    flex: 0 0 18px;
+    margin-top: 2px;
+    position: relative;
+}
+
+.check:after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 30% 30%, rgba(251, 113, 133, .70), transparent 55%);
+    opacity: .7;
+    border-radius: 6px;
+}
+
+.cardFoot {
+    margin-top: auto;
+    padding: 14px 16px 16px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    border-top: 1px solid var(--stroke);
+    background: rgba(255, 255, 255, .03);
+}
+
+@media (max-width: 980px) {
+    .grid3 {
+        gap: 1.1rem !important;
+    }
+}
+
+
+/* ===================
+   9) CALLOUT (SHARED)
+   =================== */
+.callout {
+    border: 1px solid rgba(192, 132, 252, .22);
+    border-radius: var(--radius2);
+    box-shadow: var(--shadow);
+    padding: 18px;
+    margin-top: 1.1rem !important;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.callout strong {
+    font-size: 16px;
+}
+
+.callout p {
+    margin: 6px 0 0;
+    color: var(--muted);
+    max-width: 90ch;
+}
+
+.callout .btn {
+    margin-top: .26rem;
+}
+
+
+/* =====================================
+   10) PROMO (EVENT DECOR SERVICES PAGE)
+   ===================================== */
+.promo {
+    display: grid;
+    grid-template-columns: 1.05fr .95fr;
+    gap: 14px;
+    align-items: stretch;
+}
+
+@media (max-width: 960px) {
+    .promo {
+        grid-template-columns: 1fr;
+    }
+}
+
+.promoSide {
+    border-radius: var(--radius2);
+}
+
+.promoActions {
+    margin-top: 12px;
+}
+
+
+/* =======================================
+   11) GALLERY (EVENT DECOR SERVICES PAGE)
+   ======================================= */
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 10px;
+}
+
+.g {
+    border: 1px solid var(--stroke);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: rgba(255, 255, 255, .05);
+    box-shadow: 0 14px 50px rgba(0, 0, 0, .28);
+    min-height: 160px;
+}
+
+.g img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.g1 {
+    grid-column: span 7;
+    min-height: 240px;
+}
+
+.g2 {
+    grid-column: span 5;
+    min-height: 240px;
+}
+
+.g3 {
+    grid-column: span 4;
+}
+
+.g4 {
+    grid-column: span 4;
+}
+
+.g5 {
+    grid-column: span 4;
+}
+
+@media (max-width: 960px) {
+
+    .g1,
+    .g2,
+    .g3,
+    .g4,
+    .g5 {
+        grid-column: span 12;
+    }
+
+    .g {
+        min-height: 220px;
+    }
+}
+
+
+/* ===============================================
+   12) CONTACT / FORMS (EVENT DECOR SERVICES PAGE)
+   ================================================ */
+.contactGrid {
+    display: grid;
+    grid-template-columns: .9fr 1.1fr;
+    gap: 14px;
+    align-items: start;
+}
+
+@media (max-width: 960px) {
+    .contactGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.contactSide {
+    border-radius: var(--radius2);
+}
+
+.contactActions {
+    margin-top: 14px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.form {
+    border: 1px solid var(--stroke);
+    border-radius: var(--radius2);
+    background: linear-gradient(180deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, .04));
+    box-shadow: var(--shadow);
+    padding: 16px;
+}
+
+label {
+    display: block;
+    font-size: 13px;
+    color: var(--muted);
+    margin: 0 0 6px;
+}
+
+input,
+textarea,
+select {
+    width: 100%;
+    padding: 12px 12px;
+    border-radius: 14px;
+    border: 1px solid var(--stroke);
+    background: rgba(255, 255, 255, .04);
+    color: var(--text);
+    outline: none;
+}
+
+textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: rgba(214, 180, 107, .55);
+}
+
+.row2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+@media (max-width: 560px) {
+    .row2 {
+        grid-template-columns: 1fr;
+    }
+}
+
+.mt10 {
+    margin-top: 10px;
+}
+
+.formActions {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.formNote {
+    color: var(--muted2);
+    font-size: 13px;
+}
+
+.finePrint {
+    margin: 12px 0 0;
+    color: var(--muted2);
+    font-size: 13px;
+}
+
+
+/* =======================
+   13) ABOUT PAGE SECTIONS
+   ======================= */
+.heroNote {
+    margin-top: 18px;
+    padding: 12px;
+    border-radius: 18px;
+    border: 1px solid var(--stroke);
+    background: rgba(255, 255, 255, .55);
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.heroSide {
+    display: grid;
+    gap: 14px;
+}
+
+.sideCard {
+    border: 1px solid var(--stroke);
+    border-radius: var(--radius2);
+    background: linear-gradient(180deg, var(--panel2), var(--panel));
+    box-shadow: var(--shadow);
+    padding: 18px;
+}
+
+.sideCard h3 {
+    margin: 0 0 8px;
+    font-size: 16px;
+}
+
+.sideCard p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+/*
+.sideCard.soft {
+    background: linear-gradient(180deg, var(--panel2), var(--panel));
+    border: 1px solid var(--stroke);
+}
+*/
+
+/* Remove pink/purple accents */
+.sideCard.soft.no-accent {
+    background: linear-gradient(180deg, var(--panel2), var(--panel)) !important;
+    border-color: var(--stroke) !important;
+}
+
+/* Kill the purple/pink glow overlay */
+.sideCard.soft.no-accent::before {
+    content: none !important;
+}
+
+.sideList {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 10px;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.sideList li {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+/* Story */
+.storyGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 14px;
+}
+
+@media (max-width: 900px) {
+    .storyGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.storyCard {
+    border: 1px solid var(--stroke);
+    border-radius: var(--radius2);
+    background: linear-gradient(180deg, var(--panel2), var(--panel));
+    box-shadow: var(--shadow);
+    padding: 20px;
+}
+
+.storyCard h3 {
+    margin: 0 0 10px;
+    font-size: 18px;
+}
+
+.storyCard p {
+    margin: 0 0 12px;
+    color: var(--muted);
+}
+
+/* Values */
+.valueGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-top: 16px;
+}
+
+@media (max-width: 1000px) {
+    .valueGrid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .valueGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.valueCard {
+    border: 1px solid var(--stroke);
+    border-radius: var(--radius2);
+    background: linear-gradient(180deg, var(--panel2), var(--panel));
+    box-shadow: var(--shadow);
+    padding: 18px;
+}
+
+.valueCard .icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    background: linear-gradient(135deg, rgba(192, 132, 252, .16), rgba(251, 113, 133, .12));
+    border: 1px solid rgba(192, 132, 252, .22);
+    margin-bottom: 12px;
+}
+
+.valueCard h3 {
+    margin: 0 0 8px;
+    font-size: 16px;
+}
+
+.valueCard p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+/* Process */
+.processGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-top: 16px;
+}
+
+@media (max-width: 1000px) {
+    .processGrid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .processGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.step {
+    border: 1px solid var(--stroke);
+    border-radius: var(--radius2);
+    background: linear-gradient(180deg, var(--panel2), var(--panel));
+    box-shadow: var(--shadow);
+    padding: 18px;
+}
+
+.stepNum {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(192, 132, 252, .16), rgba(251, 113, 133, .12));
+    border: 1px solid rgba(192, 132, 252, .22);
+    font-weight: 900;
+    margin-bottom: 12px;
+}
+
+.step h3 {
+    margin: 0 0 8px;
+    font-size: 16px;
+}
+
+.step p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+/* Stats */
+.stats {
+    padding-top: 10px;
+}
+
+.statsCard {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    border: 1px solid rgba(192, 132, 252, .22);
+    border-radius: var(--radius2);
+    background: linear-gradient(135deg, rgba(192, 132, 252, .16), rgba(251, 113, 133, .10));
+    box-shadow: var(--shadow);
+    padding: 18px;
+}
+
+@media (max-width: 900px) {
+    .statsCard {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 520px) {
+    .statsCard {
+        grid-template-columns: 1fr;
+    }
+}
+
+.stat {
+    padding: 12px;
+    border-radius: 18px;
+    border: 1px solid rgba(124, 58, 237, .14);
+    background: rgba(255, 255, 255, .6);
+    text-align: center;
+}
+
+.stat strong {
+    display: block;
+    font-size: 24px;
+    letter-spacing: -.4px;
+}
+
+.stat span {
+    display: block;
+    margin-top: 6px;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+/* CTA */
+.ctaCard {
+    border: 1px solid rgba(192, 132, 252, .25);
+    border-radius: var(--radius2);
+    background: linear-gradient(135deg, rgba(192, 132, 252, .16), rgba(251, 113, 133, .10));
+    box-shadow: var(--shadow);
+    padding: 26px;
+    text-align: center;
+}
+
+.ctaCard h2 {
+    margin: 0 0 10px;
+    font-size: clamp(22px, 2.6vw, 34px);
+    letter-spacing: -.4px;
+}
+
+.ctaCard p {
+    margin: 0 auto;
+    max-width: 80ch;
+    color: var(--muted);
+}
+
+.ctaActions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 18px;
+}
+
+/* Featured sections overlay (About page) */
+.sideCard.soft,
+.statsCard,
+.ctaCard {
+    position: relative;
+    overflow: hidden;
+    background: rgba(255, 255, 255, .78);
+    border: 1px solid rgba(124, 58, 237, .14);
+    box-shadow: 0 18px 70px rgba(17, 24, 39, .08);
+}
+
+.sideCard.soft::before,
+.statsCard::before,
+.ctaCard::before {
+    content: "";
+    position: absolute;
+    inset: -60px;
+    background:
+        radial-gradient(900px 320px at 15% 20%, rgba(192, 132, 252, .22), transparent 62%),
+        radial-gradient(900px 320px at 85% 15%, rgba(251, 113, 133, .18), transparent 66%),
+        radial-gradient(900px 320px at 50% 110%, rgba(192, 132, 252, .10), transparent 72%);
+    opacity: .95;
+    pointer-events: none;
+}
+
+.sideCard.soft > *,
+.statsCard > *,
+.ctaCard > * {
+    position: relative;
+    z-index: 1;
+}
+
+
+/* ===================
+   14) FOOTER (SHARED)
+   =================== */
+footer {
+    padding: 26px 0 40px;
+    color: var(--muted2);
+    border-top: 1px solid var(--stroke);
+    margin-top: 30px;
+}
+
+.foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 13px;
+}
+
+.footLinks {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.footLinks a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.footLinks a:hover {
+    text-decoration: underline;
+}
+
+
+/* ====================================
+   15) OPTIONAL LIGHT-SURFACE SOFTENING
+   ==================================== */
+@media (prefers-color-scheme: light) {
+
+    .heroCard,
+    .miniBox,
+    .card,
+    .form,
+    .callout {
+        background: linear-gradient(180deg, rgba(255, 255, 255, .88), rgba(255, 255, 255, .70));
+        backdrop-filter: blur(10px);
+        border-color: rgba(124, 58, 237, .14);
+    }
+
+    .topbar {
+        background: rgba(255, 255, 255, .78);
+    }
+
+    .dot {
+        box-shadow: 0 0 14px rgba(251, 113, 133, .35);
+    }
+}
+
+
+/* ==================================================
+   16) PAGE-SPECIFIC TWEAKS (OPTIONAL)
+   - If different section padding per page is needed.
+   ================================================== */
+/*
+body[data-page="about"] section { padding: 44px 0; }
+body[data-page="services"] section { padding: 34px 0; }
+*/
