@@ -249,41 +249,16 @@ a {
 }
 
 /* ----- iOS SAFARI CONSISTENCY FIXES ----- */
-@media (max-width: 600px) {
-    @supports (-webkit-touch-callout: none) {
+@supports (-webkit-touch-callout: none) {
+  body { background-attachment: scroll !important; }
 
-        #packages .sectionHead,
-        #venue .sectionHead,
-        #gallery .sectionHead,
-        #contact .sectionHead {
-            position: relative;
-            transform: translateZ(0);
-            -webkit-transform: translateZ(0);
-        }
-
-        #packages .sectionHead::before,
-        #venue .sectionHead::before,
-        #gallery .sectionHead::before,
-        #contact .sectionHead::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            /* no negative overflow */
-            border-radius: 16px;
-            background: rgba(251, 248, 255, .92);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        #packages .sectionHead > *,
-        #venue .sectionHead > *,
-        #gallery .sectionHead > *,
-        #contact .sectionHead > * {
-            position: relative;
-            z-index: 1;
-        }
-
-    }
+  #packages .sectionHead,
+  #venue .sectionHead,
+  #gallery .sectionHead,
+  #contact .sectionHead {
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+  }
 }
 
 
