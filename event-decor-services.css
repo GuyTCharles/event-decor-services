@@ -249,34 +249,68 @@ a {
 }
 
 
-/* ----- iOS SAFARI CONSISTENCY FIXES ----- */
-:root { color-scheme: light; }
-
-/* Prevent iOS from restyling form controls */
-button,
-input,
-select,
-textarea {
-  -webkit-appearance: none;
-  appearance: none;
-}
-
-/* Fix iOS background issue - mobile only*/
+/* ============================================================
+   iOS Safari scroll seam fix (titles + sections that flicker)
+   Targets: #packages, #venue, #gallery, #contact
+   ============================================================ */
 @supports (-webkit-touch-callout: none) {
 
-    /* iOS + fixed background + gradients */
-    body {
-        background-attachment: scroll !important;
-    }
+  /* 1) iOS + background-attachment: fixed = frequent seam artifacts */
+  body {
+    background-attachment: scroll !important;
+  }
 
-    #packages .sectionHead,
-    #venue .sectionHead,
-    #gallery .sectionHead,
-    #contact .sectionHead {
-        padding-bottom: 12px;
-        margin-bottom: 12px;
-        border-bottom: 1px solid rgba(124, 58, 237, .08);
-    }
+  /* 2) Make each major section its own compositing/isolation boundary */
+  #packages, #venue, #gallery, #contact {
+    isolation: isolate;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+  }
+
+  /* 3) Stabilize the section headers (this is where you see the seam) */
+  #packages .sectionHead,
+  #venue .sectionHead,
+  #gallery .sectionHead,
+  #contact .sectionHead {
+    position: relative;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  /* 4) Give the title area a real “paint surface” so seams can't cut through text */
+  #packages .sectionHead::before,
+  #venue .sectionHead::before,
+  #gallery .sectionHead::before,
+  #contact .sectionHead::before {
+    content: "";
+    position: absolute;
+    inset: -10px -12px;           /* slightly larger than the header */
+    border-radius: 16px;
+    background: rgba(251, 248, 255, .92); /* matches your --bg vibe */
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  #packages .sectionHead > *,
+  #venue .sectionHead > *,
+  #gallery .sectionHead > *,
+  #contact .sectionHead > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* 5) Promote the main translucent panels inside those sections (not everything) */
+  #packages .card, #packages .callout, #packages .tabs,
+  #venue .card, #venue .miniBox, #venue .promo,
+  #gallery .g,
+  #contact .miniBox, #contact .form, #contact .contactGrid {
+    transform: translate3d(0,0,0);
+    -webkit-transform: translate3d(0,0,0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
 }
 
 
