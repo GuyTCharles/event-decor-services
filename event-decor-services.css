@@ -262,10 +262,14 @@ textarea {
 }
 
 /* Fix iOS background issue - mobile only*/
-@media (max-width: 600px) {
-  #venue, .venue, .promo {
-    transform: translateZ(0);
-    -webkit-transform: translateZ(0);
+@supports (-webkit-touch-callout: none) {
+  #packages .sectionHead,
+  #venue .sectionHead,
+  #gallery .sectionHead,
+  #contact .sectionHead {
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid rgba(124, 58, 237, .08);
   }
 }
 
