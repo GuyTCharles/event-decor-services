@@ -250,11 +250,6 @@ a {
 
 /* ----- iOS SAFARI CONSISTENCY FIXES ----- */
 @media (max-width: 820px) {
-    @supports (-webkit-touch-callout: none) {
-        body {
-            background-attachment: scroll !important;
-        }
-
         #packages .sectionHead,
         #venue .sectionHead,
         #gallery .sectionHead,
