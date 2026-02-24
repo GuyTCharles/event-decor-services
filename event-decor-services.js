@@ -13,14 +13,14 @@
   const tabs = Array.from(document.querySelectorAll('[role="tab"]'));
   const panels = Array.from(document.querySelectorAll('[role="tabpanel"]'));
 
-  function setActiveTab(tabId) {
+  function setActiveTab(tabId, { focus = false } = {}) {
     if (!tabs.length || !panels.length) return;
 
     tabs.forEach((t) => {
       const selected = t.id === tabId;
       t.setAttribute("aria-selected", selected ? "true" : "false");
-      // Optional: ensure tab is focusable correctly
       t.tabIndex = selected ? 0 : -1;
+      if (selected && focus) t.focus();
     });
 
     panels.forEach((p) => {
@@ -37,18 +37,31 @@
     tabs.forEach((t) => {
       t.addEventListener("click", () => setActiveTab(t.id));
 
-      // Keyboard nav (accessibility)
       t.addEventListener("keydown", (e) => {
         const i = tabs.indexOf(t);
         if (i < 0) return;
 
         if (e.key === "ArrowRight") {
           e.preventDefault();
-          tabs[(i + 1) % tabs.length].focus();
+          setActiveTab(tabs[(i + 1) % tabs.length].id, { focus: true });
         }
         if (e.key === "ArrowLeft") {
           e.preventDefault();
-          tabs[(i - 1 + tabs.length) % tabs.length].focus();
+          setActiveTab(tabs[(i - 1 + tabs.length) % tabs.length].id, {
+            focus: true,
+          });
+        }
+        if (e.key === "Home") {
+          e.preventDefault();
+          setActiveTab(tabs[0].id, { focus: true });
+        }
+        if (e.key === "End") {
+          e.preventDefault();
+          setActiveTab(tabs[tabs.length - 1].id, { focus: true });
+        }
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          setActiveTab(t.id, { focus: true });
         }
       });
     });
@@ -93,6 +106,18 @@
   const form = document.getElementById("quoteForm");
   const note = document.getElementById("formNote");
   const copyBtn = document.getElementById("copySummaryBtn");
+  const dateInput = document.getElementById("date");
+
+  if (note) {
+    note.setAttribute("role", "status");
+    note.setAttribute("aria-live", "polite");
+  }
+
+  if (dateInput && !dateInput.min) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    dateInput.min = today.toISOString().split("T")[0];
+  }
 
   function buildSummary() {
     if (!form) return "";
