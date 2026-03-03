@@ -1815,7 +1815,7 @@ section {
     border-radius: var(--radius2);
     background: linear-gradient(180deg, var(--panel2), var(--panel));
     box-shadow: var(--shadow);
-    padding: 26px;
+    padding: 24px;
     overflow: hidden;
     position: relative;
 }
