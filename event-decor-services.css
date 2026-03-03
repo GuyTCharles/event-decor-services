@@ -1478,8 +1478,12 @@ footer {
     gap: 8px;
 }
 
+.legalCard ul + p {
+    margin-top: 10px;
+}
+
 .legalCard li::marker {
-    color: rgba(171, 121, 79, 0.85);
+    color: var(--brand2);
 }
 
 .legalCallout {
