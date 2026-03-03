@@ -55,15 +55,433 @@
         position: relative;
     }
 
-    .mark {
-        width: 38px;
-        height: 38px;
-        border-radius: 14px;
-        background: linear-gradient(135deg, var(--brand), var(--brand2));
-        box-shadow: 0 14px 34px rgba(171, 121, 79, .22);
+    .logo {
+        width: 48px;
+        height: 48px;
+        flex: 0 0 48px;
+        border-radius: 50%;
+        background: url("images/logo/logo.png") center / contain no-repeat;
     }
     
     /* ---------- Mobile link presentation ---------- */
+    /* On mobile, we use chips-row (navChips) for links.
+     If .navlinks is still present in DOM, keep it tidy. */
+    .navlinks {
+        width: 100%;
+        justify-content: flex-start;
+        gap: 8px;
+        font-size: 13px;
+    }
+
+    .navlinks a {
+        padding: 7px 10px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, .55);
+        border: 1px solid var(--stroke);
+    }
+
+    /* Active state on mobile: keep it simple (no underline glow) */
+    .navlinks a.active,
+    .navlinks a[aria-current="page"] {
+        background: linear-gradient(135deg, rgba(171, 121, 79, .16), rgba(63, 126, 116, .10));
+        border: 1px solid rgba(108, 83, 54, .10);
+    }
+
+    .navlinks a.active::before,
+    .navlinks a.active::after,
+    .navlinks a[aria-current="page"]::before,
+    .navlinks a[aria-current="page"]::after {
+        display: none;
+    }
+
+    /* ---------- Swipeable chip menu (preferred mobile nav) ---------- */
+    .navChips {
+        grid-area: chips;
+        display: flex;
+        gap: 10px;
+        padding: 6px 2px 2px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    .navChips::-webkit-scrollbar {
+        display: none;
+    }
+
+    .chipLink {
+        flex: 0 0 auto;
+        padding: 10px 12px !important;
+        border-radius: 999px;
+        border: 1px solid rgba(108, 83, 54, .14);
+        background: rgba(255, 255, 255, .70);
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 550;
+        transition: transform .15s ease, border-color .15s ease;
+    }
+
+    .chipLink:active {
+        transform: scale(.98);
+    }
+
+    .chipLink:hover {
+        border-color: rgba(171, 121, 79, .35);
+        color: var(--text);
+    }
+
+    .chipLink.active,
+    .chipLink[aria-current="page"] {
+        color: var(--text);
+        border-color: rgba(171, 121, 79, .35);
+        background: linear-gradient(135deg, rgba(171, 121, 79, .18), rgba(63, 126, 116, .12));
+    }
+
+    /* Fade edges to hint horizontal scroll */
+    .nav::before,
+    .nav::after {
+        content: "";
+        position: absolute;
+        bottom: 2px;
+        width: 18px;
+        height: 44px;
+        pointer-events: none;
+        z-index: 2;
+    }
+
+    .nav::before {
+        left: 0;
+        background: linear-gradient(to right, rgba(244, 239, 230, 1), rgba(244, 239, 230, 0));
+    }
+
+    .nav::after {
+        right: 0;
+        background: linear-gradient(to left, rgba(244, 239, 230, 1), rgba(244, 239, 230, 0));
+    }
+
+    /* ---------- Buttons: better tap size and no “jump” on mobile ---------- */
+    .btn {
+        min-height: var(--btn-height, 44px);
+        padding: 0 var(--btn-padding-x, 16px);
+        font-size: var(--btn-font-size, 14px);
+        box-shadow: 0 10px 28px rgba(44, 31, 22, .12);
+        transform: none !important;
+    }
+
+    .btn:hover {
+        transform: none;
+    }
+
+    /* ---------- Hero ---------- */
+    .hero {
+        padding: 34px 0 20px;
+    }
+
+    .heroGrid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .heroCard {
+        padding: 18px;
+    }
+
+    .hero h1 {
+        font-size: clamp(28px, 9vw, 40px);
+    }
+
+    .hero p {
+        font-size: 15px;
+        max-width: 100%;
+    }
+
+    .pill {
+        font-size: 12px;
+        padding: 7px 10px;
+    }
+
+    .heroActions,
+    .jump {
+        gap: 10px;
+    }
+
+    .chip {
+        padding: 10px 12px;
+        font-size: 13px;
+        background: rgba(255, 255, 255, .60);
+    }
+
+    .heroMini {
+        gap: 10px;
+    }
+
+    .miniBox {
+        padding: 14px;
+    }
+
+    .miniList {
+        gap: 7px;
+    }
+
+    /* ---------- Section Head ---------- */
+    .sectionHead {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        margin-bottom: 12px;
+    }
+
+    .sectionHead h2 {
+        font-size: clamp(20px, 6.5vw, 28px);
+    }
+
+    .sectionHead p {
+        max-width: 100%;
+        font-size: 14px;
+    }
+
+    /* ---------- Tabs ---------- */
+    .tabs {
+        gap: 8px;
+        margin: 10px 0 14px;
+    }
+
+    .tabBtn {
+        min-height: var(--btn-height, 44px);
+        padding: 0 var(--btn-padding-x, 16px);
+        font-size: var(--btn-font-size, 14px);
+    }
+
+    /* ---------- Cards / Packages grid ---------- */
+    .grid3 {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .cardBody {
+        padding: 14px;
+    }
+
+    .card h3 {
+        font-size: 17px;
+    }
+
+    .cardTop {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+
+    .price {
+        font-size: 14px;
+    }
+
+    .cardFoot {
+        padding: 12px 14px 14px;
+        gap: 8px;
+    }
+
+    /* ---------- Promo grid ---------- */
+    .promo {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    /* ---------- Gallery ---------- */
+    .gallery {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .g {
+        min-height: 210px;
+    }
+
+    .g1,
+    .g2,
+    .g3,
+    .g4,
+    .g5 {
+        grid-column: span 12;
+        min-height: 210px;
+    }
+
+    /* ---------- Contact ---------- */
+    .contactGrid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .contactActions {
+        gap: 8px;
+    }
+
+    .form {
+        padding: 14px;
+    }
+
+    input,
+    textarea,
+    select {
+        padding: 12px 12px;
+        border-radius: 14px;
+        font-size: 16px;
+        /* prevents iOS zoom on focus */
+    }
+
+    .row2 {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .formActions {
+        gap: 8px;
+    }
+
+    /* ---------- CTA / Featured cards (reduce overlay intensity on small screens) ---------- */
+    .sideCard.soft::before,
+    .statsCard::before,
+    .ctaCard::before {
+        opacity: .75;
+    }
+
+    .ctaCard {
+        padding: 20px;
+        text-align: left;
+    }
+
+    .ctaActions {
+        justify-content: flex-start;
+    }
+
+    /* ---------- Footer ---------- */
+    footer {
+        padding: 22px 0 34px;
+    }
+
+    .foot {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+}
+
+/* ===================================
+   SMALL PHONE LAYOUT (<= 560px)
+   =================================== */
+@media (max-width: 560px) {
+    .heroActions {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        justify-items: stretch;
+    }
+
+    .heroActions .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .tabBtn {
+        flex: 0 0 auto;
+    }
+}
+
+
+/* =======================
+   SMALL PHONES (<= 520px)
+   ======================= */
+@media (max-width: 520px) {
+    .chipLink {
+        padding: 8px 8px !important;
+    }
+    
+    .navCta {
+        grid-area: cta;
+        min-height: var(--btn-height, 44px);
+        padding: 0 var(--btn-padding-x, 16px);
+        font-size: var(--btn-font-size, 14px);
+        box-shadow: 0 12px 28px rgba(44, 31, 22, .12);
+    }
+    
+    .logo {
+        width: 46px;
+        height: 46px;
+        flex: 0 0 46px;
+    }
+}
+
+/* ===================================
+   SMALL PHONE LAYOUT (<= 445px)
+   =================================== */
+@media (max-width: 445px) {
+    .heroActions {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        justify-items: stretch;
+    }
+
+    .heroActions .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .jump {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .tabs {
+        justify-content: center;
+    }
+
+    .tabBtn {
+        flex: 0 0 auto;
+    }
+}
+
+
+/* =============================
+   EXTRA-SMALL PHONES (<= 420px)
+   ============================= */
+@media (max-width: 420px) {
+    .wrap {
+        width: min(var(--max, 1160px), calc(100% - 18px));
+    }
+    
+    .logo {
+        width: 45px;
+        height: 45px;
+        flex: 0 0 45px;
+    }
+
+    .navlinks a {
+        padding: 9px 10px;
+        font-size: 12.5px;
+    }
+
+    .btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .navCta {
+        grid-area: cta;
+        min-height: var(--btn-height, 44px);
+        padding: 0 var(--btn-padding-x, 16px);
+        font-size: var(--btn-font-size, 14px);
+        box-shadow: 0 12px 28px rgba(44, 31, 22, .12);
+    }
+
+    .heroActions .btn,
+    .cardFoot .btn,
+    .ctaActions .btn {
+        width: 100%;
+    }
+}
     /* On mobile, we use chips-row (navChips) for links.
      If .navlinks is still present in DOM, keep it tidy. */
     .navlinks {
